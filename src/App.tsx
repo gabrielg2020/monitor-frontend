@@ -1,9 +1,11 @@
+import Dashboard from "./components/dashboard/Dashboard.tsx";
+
 function App() {
 
   return (
-    <>
-      <h1 className={"text-3xl font-bold underline"}>Hello World!</h1>
-    </>
+      <div className="min-h-screen bg-gray-900 p-6">
+          <Dashboard />
+      </div>
   )
 }
 
