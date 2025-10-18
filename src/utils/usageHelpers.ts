@@ -9,4 +9,12 @@ function getUsageColour(usage:number) :string {
     }
     return "bg-green-500";
 }
-export { getUsageColour };
+
+// A utility function to determine if a host is online based on the latest metric timestamp
+// Returns true if the host is considered online, false otherwise
+function isHostOnline(latestTimestamp:number) :boolean {
+    const currentTime = Math.floor(Date.now() / 1000); // Convert to seconds
+
+    return (currentTime - latestTimestamp) <= 300; // 5 minutes threshold
+}
+export { getUsageColour, isHostOnline };
