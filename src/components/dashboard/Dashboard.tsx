@@ -15,6 +15,8 @@ function Dashboard({ hosts }: DashboardProps) {
     const [selectedHost, setSelectedHost] = useState<Host | null>(null);
 
     useEffect(() => {
+        if (selectedHost) return;
+
         const fetchAllMetrics = async () => {
             for (const host of hosts) {
                 try {
@@ -33,7 +35,7 @@ function Dashboard({ hosts }: DashboardProps) {
         // Refresh every 5 seconds
         const interval = setInterval(fetchAllMetrics, 5000);
         return () => clearInterval(interval);
-    }, [hosts]);
+    }, [hosts, selectedHost]);
 
     if (loading) {
         return <div className="text-white text-center py-8">Loading metrics...</div>;
