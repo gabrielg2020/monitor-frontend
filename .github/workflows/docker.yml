@@ -1,0 +1,24 @@
+name: Docker Workflow
+
+on:
+  workflow_call:
+
+jobs:
+
+  dockerfile-lint:
+    name: Lint Project Dockerfile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Run Lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          format: sarif
+          output-file: hadolint-results.sarif
+          no-fail: true
+
+      - name: Show Lint Results
+        run: cat hadolint-results.sarif

@@ -9,3 +9,10 @@ on:
       - main
 
 jobs:
+  node:
+    name: Node workflow
+    uses : ./.github/workflows/node.yml
+
+  docker:
+    name: Docker Workflow
+    uses: ./.github/workflows/docker.yml
