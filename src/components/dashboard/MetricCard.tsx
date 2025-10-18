@@ -7,9 +7,10 @@ interface MetricCardProps {
     cpuUsage: number;
     memoryUsage: number;
     diskUsage: number;
+    onClick?: () => void;
 }
 
-function MetricCard({ hostname, isOnline, cpuUsage, memoryUsage, diskUsage }: MetricCardProps) {
+function MetricCard({ hostname, isOnline, cpuUsage, memoryUsage, diskUsage, onClick }: MetricCardProps) {
     // If the device is offline, show a simplified card
     if (!isOnline) {
         return (
@@ -28,7 +29,7 @@ function MetricCard({ hostname, isOnline, cpuUsage, memoryUsage, diskUsage }: Me
     }
     // If the device is online, show the full card with metrics
     return (
-        <div className="bg-gray-800 rounded-lg p-4 border-2 border-gray-700 hover:border-blue-500 cursor-pointer transition-all">
+        <div className="bg-gray-800 rounded-lg p-4 border-2 border-gray-700 hover:border-blue-500 cursor-pointer transition-all" onClick={onClick}>
             {/*Header*/}
             <div className="flex items-center justify-between mb-3">
                 <h2 className="text-lg font-semibold text-white">{hostname}</h2>

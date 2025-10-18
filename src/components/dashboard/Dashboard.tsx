@@ -3,6 +3,7 @@ import type {Host, MetricResponse} from "../../types";
 import {useEffect, useState} from "react";
 import {getMetricsByHostID} from "../../services/api.ts";
 import {isHostOnline} from "../../utils/usageHelpers.ts";
+import DetailedView from "../detailed-view/DetailedView.tsx";
 
 interface DashboardProps {
     hosts: Host[];
@@ -11,21 +12,21 @@ interface DashboardProps {
 function Dashboard({ hosts }: DashboardProps) {
     const [metricsMap, setMetricsMap] = useState<Record<number, MetricResponse>>({});
     const [loading, setLoading] = useState(true);
+    const [selectedHost, setSelectedHost] = useState<Host | null>(null);
 
     useEffect(() => {
-        const fetchAllMetrics = async () => {
-            setLoading(true);
-            const newMetrics: Record<number, MetricResponse> = {};
+        if (selectedHost) return;
 
+        const fetchAllMetrics = async () => {
             for (const host of hosts) {
                 try {
-                    newMetrics[host.id] = await getMetricsByHostID(host.id, 1);
+                    const metrics = await getMetricsByHostID(host.id, 1);
+                    setMetricsMap(prev => ({ ...prev, [host.id]: metrics }));
                 } catch (error) {
                     console.error(`Failed to fetch metrics for host ${host.id}:`, error);
                 }
             }
 
-            setMetricsMap(newMetrics);
             setLoading(false);
         };
 
@@ -34,10 +35,21 @@ function Dashboard({ hosts }: DashboardProps) {
         // Refresh every 5 seconds
         const interval = setInterval(fetchAllMetrics, 5000);
         return () => clearInterval(interval);
-    }, [hosts]);
+    }, [hosts, selectedHost]);
 
     if (loading) {
         return <div className="text-white text-center py-8">Loading metrics...</div>;
+    }
+
+    if (selectedHost) {
+        return (
+            <DetailedView
+                host={selectedHost}
+                metrics={metricsMap[selectedHost.id]}
+                onBack={() => setSelectedHost(null)}
+            />
+        );
+
     }
 
     return (
@@ -54,6 +66,7 @@ function Dashboard({ hosts }: DashboardProps) {
                         cpuUsage={latestMetric?.cpu_usage || 0}
                         memoryUsage={latestMetric?.memory_usage_percent || 0}
                         diskUsage={latestMetric?.disk_usage_percent || 0}
+                        onClick={() => setSelectedHost(host)}
                     />
                 )
             })}
