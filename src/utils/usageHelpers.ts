@@ -17,4 +17,14 @@ function isHostOnline(latestTimestamp:number) :boolean {
 
     return (currentTime - latestTimestamp) <= 300; // 5 minutes threshold
 }
-export { getUsageColour, isHostOnline };
+
+// A utility to format bytes into human-readable format
+function formatBytes(bytes:number) :string {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+}
+
+export { getUsageColour, isHostOnline, formatBytes };
