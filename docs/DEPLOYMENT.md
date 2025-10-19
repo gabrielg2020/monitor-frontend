@@ -23,7 +23,7 @@ This guide covers deploying the complete monitoring system with:
 
 ### Architecture
 
-![Architecture Preview](docs/images/deployment/architecture.png)
+![Architecture Preview](images/deployment/architecture.png)
 
 ## Prerequisites
 
