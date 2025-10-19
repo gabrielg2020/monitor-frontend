@@ -24,4 +24,4 @@ COPY --from=builder /build/dist /usr/share/nginx/html
 # Expose the port the app runs on
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh", "-c", "envsubst '${API_ADDRESS} ${API_PORT} ${API_VERSION}' < /usr/share/nginx/html/config.js > /usr/share/nginx/html/config.tmp.js && mv /usr/share/nginx/html/config.tmp.js /usr/share/nginx/html/config.js && nginx -g 'daemon off;'"]
