@@ -16,12 +16,19 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine
 
+# Install gettext for envsubst
+RUN apk add --no-cache gettext
+
 WORKDIR /app
 
 # Copy built files and necessary assets from the builder stage
 COPY --from=builder /build/dist /usr/share/nginx/html
 
+# Copy entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 # Expose the port the app runs on
 EXPOSE 80
 
-CMD ["/bin/sh", "-c", "envsubst '${API_ADDRESS} ${API_PORT} ${API_VERSION}' < /usr/share/nginx/html/config.js > /usr/share/nginx/html/config.tmp.js && mv /usr/share/nginx/html/config.tmp.js /usr/share/nginx/html/config.js && nginx -g 'daemon off;'"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
