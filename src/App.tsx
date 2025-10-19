@@ -31,7 +31,25 @@ function App() {
 
     return (
         <div className="min-h-screen bg-gray-900 p-6">
-          <Dashboard hosts={hosts.hosts} />
+            <header className="mb-8">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-4xl font-bold text-white mb-2">
+                            Homelab Monitor
+                        </h1>
+                        <p className="text-gray-400 text-sm">
+                            Real-time health and performance metrics
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <div className="text-right">
+                            <div className="text-xs text-gray-500">Last Updated</div>
+                            <div className="text-sm text-gray-300">{new Date().toLocaleTimeString()}</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <Dashboard hosts={hosts.hosts} />
         </div>
     )
 }
