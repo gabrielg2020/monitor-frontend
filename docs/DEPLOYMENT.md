@@ -285,6 +285,12 @@ You should see this section added to your nginx config:
             return 405;
         }
         
+        # CORS headers
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Methods "GET, OPTIONS" always;
+        add_header Access-Control-Allow-Headers "Content-Type" always;
+        add_header Access-Control-Allow-Credentials "true" always;
+        
         proxy_pass http://localhost:8191/api/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
