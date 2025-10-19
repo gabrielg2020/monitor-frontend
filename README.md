@@ -1,6 +1,6 @@
 # monitor-frontend
 
-A react-based frontend that displays monitoring data.
+A real-time monitoring dashboard for homelab clusters. Built with React, TypeScript, and Tailwind CSS.
 
 ## License
 
