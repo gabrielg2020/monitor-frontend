@@ -11,7 +11,6 @@ Complete guide for deploying the homelab monitoring system.
 - [Docker Setup](#docker-setup)
 - [Nginx Configuration](#nginx-configuration)
 - [SSL/TLS Setup](#ssltls-setup)
-- [Security Hardening](#security-hardening)
 
 ## Overview
 
