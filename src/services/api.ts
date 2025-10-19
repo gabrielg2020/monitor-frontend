@@ -1,8 +1,15 @@
 import type {HostResponse, MetricResponse} from "../types";
 
-const API_ADDRESS = import.meta.env.VITE_API_ADDRESS as string || 'http://localhost';
-const API_PORT = import.meta.env.VITE_API_PORT as string || '8191';
-const API_VERSION = import.meta.env.VITE_API_VERSION as string || 'v1';
+const getEnvVar = (key: keyof typeof window.ENV, fallback: string): string => {
+    if (typeof window !== 'undefined' && window.ENV && window.ENV[key]) {
+        return window.ENV[key];
+    }
+    return fallback;
+};
+
+const API_ADDRESS = getEnvVar('API_ADDRESS', import.meta.env.VITE_API_ADDRESS || 'http://localhost');
+const API_PORT = getEnvVar('API_PORT', import.meta.env.VITE_API_PORT || '8191');
+const API_VERSION = getEnvVar('API_VERSION', import.meta.env.VITE_API_VERSION || 'v1');
 
 const BASE_URL = `${API_ADDRESS}:${API_PORT}/api/${API_VERSION}`;
 
